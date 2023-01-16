@@ -21,35 +21,48 @@
     <div class="section-body">
         <div class="card">
           <div class="card-header justify-content-between align-items-center">
-            <h4>Add Category Form</h4>
+            <h4>Add Item Forms</h4>
             <p class="text-muted">Please <span class="text-danger">fill all</span> input form with right value.</p>
           </div>
+          @if(session('success'))
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {!! session('success') !!}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          @endif
           <div class="card-body table-categories w-100">
-            <form action="{{ route('category.store') }}" method="POST">
+            <form action="{{ route('item.store') }}" method="POST">
               @csrf
               <div class="form-group">
                 <label for="name" style="font-size: 15px">Name</label>
-                <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" id="name" placeholder="Enter Name">
+                <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" id="name" placeholder="Enter Name" value="{{ old('name') }}">
                 @error('name')
                   <div class="text-danger">{{ $message }}</div>
                 @enderror
               </div>
-              <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                  <label class="input-group-text" for="divisionPJ"><i class="fas fa-users"></i></label>
-                </div>
-                <select class="custom-select @error('division_pj') is-invalid @enderror" name="division_pj" id="divisionPJ">
-                  <option selected disabled hidden>Select Division PJ</option>
-                  <option value="Sarpas">Sarpas</option>
-                  <option value="Tata Usaha">Tata Usaha</option>
-                  <option value="Tefa">Tefa</option>
+              <div class="form-group">
+                <label for="name" style="font-size: 15px">Category</label>
+                <select class="custom-select @error('category_id') is-invalid @enderror" name="category_id" id="divisionPJ">
+                  <option selected disabled hidden>Pilih Category</option>
+                  @foreach($categories as $category)
+                  <option value="{{ $category->id }}" @selected(old('category_id') == $category->id)>{{ $category->name }}</option>
+                  @endforeach
                 </select>
               </div>
-              @error('division_pj')
+              @error('category_id')
                 <div class="text-danger">{{ $message }}</div>
               @enderror
+              <div class="form-group">
+                <label for="name" style="font-size: 15px">Total</label>
+                <input type="text" class="form-control @error('total') is-invalid @enderror" name="total" id="total" placeholder="Masukan Total">
+                @error('total')
+                  <div class="text-danger">{{ $message }}</div>
+                @enderror
+              </div>
               <div class="d-flex justify-content-end" style="gap: 10px">
-                <a href="{{ route('category.index') }}" class="btn btn-secondary text-dark">Back</a>
+                <a href="{{ route('item.index') }}" class="btn btn-secondary text-dark">Back</a>
                 <button type="submit" class="btn btn-primary">Submit</button>
               </div>
             </form>

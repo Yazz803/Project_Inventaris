@@ -23,7 +23,11 @@ class ItemsDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', 'items.action')
+            ->addColumn('action', function ($item) {
+                $btnEdit = '<a href="'.route('item.edit', $item->id).'" class="btn btn-lg btn-primary">Edit</a>';
+
+                return $btnEdit;
+            })
             ->setRowId('id');
     }
 

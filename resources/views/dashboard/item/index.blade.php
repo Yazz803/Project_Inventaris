@@ -26,7 +26,15 @@
             <h4>Items Table</h4>
             <a href="{{ route('item.create') }}" class="btn btn-success"><i class="fas fa-plus"></i> Add</a>
           </div>
-          <div class="card-body table-categories w-100">
+          @if(session('success'))
+          <div class="alert alert-success alert-dismissible fade show mx-3  " role="alert">
+            {!! session('success') !!}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          @endif
+          <div class="card-body table-categories">
             {{ $dataTable->table() }}
           </div>
       </div>

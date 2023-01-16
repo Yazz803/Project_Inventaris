@@ -46,7 +46,7 @@ class CategoryController extends Controller
 
         Category::create($validated);
 
-        return redirect()->route('category.create')->with('success', 'Kategori berhasil ditambahkan');
+        return redirect()->route('category.index')->with('success', 'Kategori berhasil ditambahkan');
     }
 
     /**
@@ -90,7 +90,7 @@ class CategoryController extends Controller
 
         $category->update($validated);
 
-        return redirect()->route('category.edit', $category->id)->with('success', 'Kategori berhasil diubah');
+        return redirect()->route('category.index', $category->id)->with('success', 'Kategori berhasil diubah');
     }
 
     /**

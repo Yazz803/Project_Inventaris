@@ -17,8 +17,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('category_id');
             $table->string('name');
-            $table->string('peminjam');
-            $table->string('edited_by');
+            $table->string('peminjam')->nullable();
+            $table->string('edited_by')->nullable();
             $table->integer('total');
             $table->integer('repair')->default(0);
             $table->integer('lending')->default(0);

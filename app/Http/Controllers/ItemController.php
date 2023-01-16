@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Item;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use App\DataTables\ItemsDataTable;
 
@@ -25,7 +26,8 @@ class ItemController extends Controller
      */
     public function create()
     {
-        //
+        $categories = Category::all();
+        return view('dashboard.item.create', compact('categories'));
     }
 
     /**
@@ -36,7 +38,15 @@ class ItemController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required',
+            'category_id' => 'required',
+            'total' => 'required'
+        ]);
+
+        Item::create($validated);
+
+        return redirect()->route('item.index')->with('success', 'Item Berhasil Ditambahkan!');
     }
 
     /**
@@ -58,7 +68,8 @@ class ItemController extends Controller
      */
     public function edit(Item $item)
     {
-        //
+        $categories = Category::all();
+        return view('dashboard.item.edit', compact(['item', 'categories']));
     }
 
     /**
@@ -70,7 +81,17 @@ class ItemController extends Controller
      */
     public function update(Request $request, Item $item)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required',
+            'category_id' => 'required',
+            'total' => 'required',
+        ]);
+
+        $validated['repair'] = $item->repair + $request->repair;
+
+        $item->update($validated);
+
+        return redirect()->route('item.index')->with('success', 'Item Berhasil Di ubah!');
     }
 
     /**

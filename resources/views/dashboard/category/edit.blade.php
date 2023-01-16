@@ -24,14 +24,6 @@
             <h4>Edit Category Form</h4>
             <p class="text-muted">Please <span class="text-danger">fill all</span> input form with right value.</p>
           </div>
-          @if(session('success'))
-          <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {!! session('success') !!}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          @endif
           <div class="card-body table-categories w-100">
             <form action="{{ route('category.update', $category->id) }}" method="POST">
               @csrf

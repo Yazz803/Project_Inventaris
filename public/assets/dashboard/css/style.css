@@ -2477,14 +2477,14 @@ pre {
   z-index: 880;
   left: 0; }
 
-.main-sidebar,
+/* .main-sidebar,
 .navbar,
 .main-content,
 .main-footer {
   transition: all .5s; }
 
 body.sidebar-gone .main-sidebar {
-  left: -250px; }
+  left: -250px; } */
 
 body.sidebar-mini .hide-sidebar-mini {
   display: none !important; }
