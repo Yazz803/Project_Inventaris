@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'yazzhanz@gmail.com',
             'role' => 'admin',
             'password' => bcrypt('password'),
+            'default_pw' => 'password'
         ]);
 
         \App\Models\User::factory()->create([
@@ -32,6 +33,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'woi@gmail.com',
             'role' => 'operator',
             'password' => bcrypt('password'),
+            'default_pw' => 'password'
         ]);
 
         \App\Models\User::factory()->create([
@@ -39,6 +41,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'sutaro@gmail.com',
             'role' => 'operator',
             'password' => bcrypt('password'),
+            'default_pw' => 'password'
         ]);
 
         Category::create([

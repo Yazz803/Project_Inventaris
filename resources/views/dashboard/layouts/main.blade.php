@@ -87,8 +87,8 @@
               <li class="nav-item dropdown">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-user"></i><span>Users</span></a>
                 <ul class="dropdown-menu">
-                  <li><a class="nav-link" href="{{ route('dashboard.accounts.index') }}">o Admin</a></li>
-                  <li><a class="nav-link" href="{{ route('dashboard.accounts.index') }}">o Operator</a></li>
+                  <li><a class="nav-link" href="{{ route('dashboard.accounts.admin') }}">o Admin</a></li>
+                  <li><a class="nav-link" href="{{ route('dashboard.accounts.operator') }}">o Operator</a></li>
                 </ul>
               </li>
             </ul>

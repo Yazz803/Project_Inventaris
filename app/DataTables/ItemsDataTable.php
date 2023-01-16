@@ -4,6 +4,7 @@ namespace App\DataTables;
 
 use App\Models\Item;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
+use Illuminate\Database\Eloquent\Model;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
@@ -89,11 +90,12 @@ class ItemsDataTable extends DataTable
             Column::make('name'),
             Column::make('total'),
             Column::make('repair'),
-            Column::make('lending'),
+            Column::make('lending')
+                ->exportable(false),
             Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->addClass('text-center'),
+                ->exportable(false)
+                ->printable(false)
+                ->addClass('text-center'),
             Column::make('updated_at')
                 ->title('Last Updated')
                 ->visible(false)

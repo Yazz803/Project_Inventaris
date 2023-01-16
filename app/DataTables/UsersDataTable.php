@@ -25,7 +25,39 @@ class UsersDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addColumn('action', function($user) {
                 if($user->role == last(request()->segments())){
-                    return $user->role;
+                    if($user->role == 'admin'){
+                        $btnEdit = '<a href="'.route('dashboard.accounts.edit', $user->id).'" class="btn btn-primary">Edit</a>';
+                        $btnDelete = '<a href="'.route('dashboard.accounts.delete', $user->id).'" class="btn btn-danger">Delete</a>';
+                        $div = 
+                        '<div class="d-flex justify-content-around align-items-center gap-2">'
+                            .$btnEdit.
+                            $btnDelete.
+                        '</div>';
+
+                        return $div;
+                    }elseif($user->role == 'operator'){
+                        $btnReset = '
+                            <form action="'.route('dashboard.accounts.resetpassword', $user->id).'" method="POST">
+                                '.csrf_field().'
+                                '.method_field('PUT').'
+                                <button type="submit" class="btn btn-warning">Reset Password</button>
+                            </form>
+                        ';
+                        $btnDelete = '
+                            <form action="'.route('dashboard.accounts.delete', $user->id).'" method="POST">
+                                '.csrf_field().'
+                                '.method_field('DELETE').'
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        ';
+                        $div = 
+                        '<div class="d-flex justify-content-between align-items-center gap-2">'
+                            .$btnReset.
+                            $btnDelete.
+                        '</div>';
+
+                        return $div;
+                    }
                 }
             })
             // ->setRowId('id')
@@ -36,7 +68,7 @@ class UsersDataTable extends DataTable
             })
             ->editColumn('name', function($user) {
                 if($user->role == last(request()->segments())){
-                    return $user->role;
+                    return $user->name;
                 }
             })
             ->editColumn('email', function($user) {
@@ -90,14 +122,19 @@ class UsersDataTable extends DataTable
     {
         return [
             Column::make('id')
-                ->title('#'),
+                ->title('#')
+                ->width(20)
+                ->exportable(false),
             Column::make('name'),
             Column::make('email'),
             Column::computed('action')
                   ->exportable(false)
                   ->printable(false)
-                  ->width(60)
+                  ->width(200)
                   ->addClass('text-center'),
+            Column::make('default_pw')
+                ->visible(false)
+                ->title('Password'),
         ];
     }
 

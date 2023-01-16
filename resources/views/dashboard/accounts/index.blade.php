@@ -29,8 +29,8 @@
     <div class="section-body">
         <div class="card">
           <div class="card-header justify-content-between align-items-center">
-            <h4>Categories Table</h4>
-            <a href="{{ route('category.create') }}" class="btn btn-success"><i class="fas fa-plus"></i> Add</a>
+            <h4>{{ ucfirst(last(request()->segments())) }} Accounts Table <span class="text-warning">(p.s password 4 character of email and number #)</span></h4>
+            <a href="{{ route('dashboard.accounts.create') }}" class="btn btn-success"><i class="fas fa-plus"></i> Add</a>
           </div>
           @if(session('success'))
           <div class="alert alert-success alert-dismissible fade show mx-3  " role="alert">
