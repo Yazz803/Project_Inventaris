@@ -2,6 +2,12 @@
 
 @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 
+<style>
+  td:empty{
+    display: none;
+  }
+</style>
+
 @section('content')
 <section class="section">
     <div class="section-header">

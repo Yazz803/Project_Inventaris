@@ -15,7 +15,7 @@
           <li><a href="{{ route('landingpage.index') }}" class="active">Home</a></li>
           @if(auth()->check())
           <li><a href="{{ route('dashboard.index') }}">Dashboard</a></li>
-          <li><button type="button" data-bs-toggle="modal" data-bs-target="#loginModal" class="btn btn-primary">Logout</button></li>
+          <li><a href="{{ route('logout') }}">Logout</a></li>
           @else
           <li><button type="button" data-bs-toggle="modal" data-bs-target="#loginModal" class="btn btn-primary">Login</button></li>
           @endif

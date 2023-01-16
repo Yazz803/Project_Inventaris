@@ -9,6 +9,6 @@ use Illuminate\Http\Request;
 class UserController extends Controller
 {
     public function admin(UsersDataTable $dataTables) {
-        return $dataTables->render('dashboard.accounts.admin');
+        return $dataTables->render('dashboard.accounts.index');
     }
 }

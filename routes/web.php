@@ -28,8 +28,8 @@ Route::group(['middleware' => 'auth', 'prefix' => 'dashboard'], function () {
     Route::resource('category', CategoryController::class);
     Route::resource('item', ItemController::class);
 
-    Route::get('/admin', [UserController::class, 'admin'])->name('dashboard.accounts.admin');
-    Route::get('/operator', [UserController::class, 'operator'])->name('dashboard.accounts.operator');
+    Route::get('/admin', [UserController::class, 'admin'])->name('dashboard.accounts.index');
+    Route::get('/operator', [UserController::class, 'admin'])->name('dashboard.accounts.index');
 });
 // Auth::routes();
 

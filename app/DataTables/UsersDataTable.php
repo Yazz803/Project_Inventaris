@@ -23,8 +23,27 @@ class UsersDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', 'users.action')
-            ->setRowId('id');
+            ->addColumn('action', function($user) {
+                if($user->role == last(request()->segments())){
+                    return $user->role;
+                }
+            })
+            // ->setRowId('id')
+            ->editColumn('id', function($user) {
+                if($user->role == last(request()->segments())){
+                    return $user->id;
+                }
+            })
+            ->editColumn('name', function($user) {
+                if($user->role == last(request()->segments())){
+                    return $user->role;
+                }
+            })
+            ->editColumn('email', function($user) {
+                if($user->role == last(request()->segments())){
+                    return $user->email;
+                }
+            });
     }
 
     /**
@@ -70,15 +89,15 @@ class UsersDataTable extends DataTable
     public function getColumns(): array
     {
         return [
+            Column::make('id')
+                ->title('#'),
+            Column::make('name'),
+            Column::make('email'),
             Column::computed('action')
                   ->exportable(false)
                   ->printable(false)
                   ->width(60)
                   ->addClass('text-center'),
-            Column::make('id'),
-            Column::make('name'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
         ];
     }
 
