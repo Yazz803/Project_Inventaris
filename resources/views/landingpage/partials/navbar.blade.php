@@ -13,7 +13,12 @@
       <nav id="navbar" class="navbar">
         <ul>
           <li><a href="{{ route('landingpage.index') }}" class="active">Home</a></li>
+          @if(auth()->check())
+          <li><a href="{{ route('dashboard.index') }}">Dashboard</a></li>
+          <li><button type="button" data-bs-toggle="modal" data-bs-target="#loginModal" class="btn btn-primary">Logout</button></li>
+          @else
           <li><button type="button" data-bs-toggle="modal" data-bs-target="#loginModal" class="btn btn-primary">Login</button></li>
+          @endif
         </ul>
       </nav><!-- .navbar -->
 

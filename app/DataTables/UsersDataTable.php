@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\Item;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -12,7 +12,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class ItemsDataTable extends DataTable
+class UsersDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -23,27 +23,17 @@ class ItemsDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', function ($item) {
-                $btnEdit = '<a href="'.route('item.edit', $item->id).'" class="btn btn-lg btn-primary">Edit</a>';
-
-                return $btnEdit;
-            })
-            ->setRowId('id')
-            ->editColumn('category_id' , function($item) {
-                return $item->category->name;
-            })
-            ->editColumn('updated_at', function($item) {
-                return $item->updated_at->translatedFormat('F d, Y');
-            });
+            ->addColumn('action', 'users.action')
+            ->setRowId('id');
     }
 
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\Item $model
+     * @param \App\Models\User $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(Item $model): QueryBuilder
+    public function query(User $model): QueryBuilder
     {
         return $model->newQuery();
     }
@@ -56,7 +46,7 @@ class ItemsDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('items-table')
+                    ->setTableId('users-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
@@ -80,23 +70,15 @@ class ItemsDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('id')
-                ->width(20)
-                ->addClass('text-center')
-                ->exportable(false),
-            Column::make('category_id')
-                ->title('Category'),
-            Column::make('name'),
-            Column::make('total'),
-            Column::make('repair'),
-            Column::make('lending'),
             Column::computed('action')
                   ->exportable(false)
                   ->printable(false)
+                  ->width(60)
                   ->addClass('text-center'),
-            Column::make('updated_at')
-                ->title('Last Updated')
-                ->visible(false)
+            Column::make('id'),
+            Column::make('name'),
+            Column::make('created_at'),
+            Column::make('updated_at'),
         ];
     }
 
@@ -107,6 +89,6 @@ class ItemsDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Items_' . date('YmdHis');
+        return 'Users_' . date('YmdHis');
     }
 }

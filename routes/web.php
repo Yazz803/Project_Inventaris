@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ItemController;
@@ -26,6 +27,9 @@ Route::group(['middleware' => 'auth', 'prefix' => 'dashboard'], function () {
     })->name('dashboard.index');
     Route::resource('category', CategoryController::class);
     Route::resource('item', ItemController::class);
+
+    Route::get('/admin', [UserController::class, 'admin'])->name('dashboard.accounts.admin');
+    Route::get('/operator', [UserController::class, 'operator'])->name('dashboard.accounts.operator');
 });
 // Auth::routes();
 
