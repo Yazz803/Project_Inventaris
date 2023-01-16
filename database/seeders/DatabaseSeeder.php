@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 use App\Models\Item;
+use App\Models\Lending;
 use App\Models\Category;
 use Illuminate\Database\Seeder;
 
@@ -49,12 +50,25 @@ class DatabaseSeeder extends Seeder
             'division_pj' => 'Sarpas',
         ]);
 
-        Item::create([
-            'name' => 'Piring',
-            'category_id' => 1,
-            'edited_by' => 'Operator Wikrama',
-            'total' => 10,
-            'peminjam' => 'Ka David',
+        Category::create([
+            'name' => 'Elektronik',
+            'division_pj' => 'Tefa',
         ]);
+
+        // Item::create([
+        //     'name' => 'Piring',
+        //     'category_id' => 1,
+        //     'lending_id' => 1,
+        //     'total' => 10,
+        // ]);
+
+        // Lending::create([
+        //     'name' => 'Ka David',
+        //     'item_id' => 1,
+        //     'total' => 5,
+        //     'date' => now(),
+        //     'keterangan' => 'untuk ngoding',
+        //     'edited_by' => 'Operator Wikrama'
+        // ]);
     }
 }

@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Item;
+use App\Models\Lending;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\DataTables\ItemsDataTable;
+use App\DataTables\ItemsOperatorDataTable;
 
 class ItemController extends Controller
 {

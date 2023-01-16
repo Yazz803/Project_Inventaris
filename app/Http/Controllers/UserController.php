@@ -42,6 +42,10 @@ class UserController extends Controller
         return view('dashboard.accounts.edit', compact('user'));
     }
 
+    public function editOperator() {
+        return view('dashboard.accounts.editOperator');
+    }
+
     public function update(Request $request, User $user) {
         if($request->password){
             $user->default_pw = 'This account already edited the password';

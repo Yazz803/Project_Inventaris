@@ -21,11 +21,11 @@
     <div class="section-body">
         <div class="card">
           <div class="card-header justify-content-between align-items-center">
-            <h4>Add Item Forms</h4>
+            <h4>Edit Account Form</h4>
             <p class="text-muted">Please <span class="text-danger">fill all</span> input form with right value.</p>
           </div>
           @if(session('success'))
-          <div class="alert alert-success alert-dismissible fade show" role="alert">
+          <div class="alert alert-success alert-dismissible fade show mx-3  " role="alert">
             {!! session('success') !!}
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
               <span aria-hidden="true">&times;</span>
@@ -33,45 +33,33 @@
           </div>
           @endif
           <div class="card-body table-categories w-100">
-            <form action="{{ route('item.update', $item->id) }}" method="POST">
+            <form action="{{ route('dashboard.accounts.update', auth()->user()->id) }}" method="POST">
               @csrf
               @method('PUT')
               <div class="form-group">
                 <label for="name" style="font-size: 15px">Name</label>
-                <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" id="name" placeholder="Enter Name" value="{{ $item->name }}">
+                <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" id="name" value="{{ auth()->user()->name }}">
                 @error('name')
                   <div class="text-danger">{{ $message }}</div>
                 @enderror
               </div>
               <div class="form-group">
-                <label for="name" style="font-size: 15px">Category</label>
-                <select class="custom-select @error('category_id') is-invalid @enderror" name="category_id" id="divisionPJ">
-                  <option selected disabled hidden>Pilih Category</option>
-                  @foreach($categories as $category)
-                  <option value="{{ $category->id }}" @if($item->category->id == $category->id) selected @endif>{{ $category->name }}</option>
-                  @endforeach
-                </select>
-              </div>
-              @error('category_id')
-                <div class="text-danger">{{ $message }}</div>
-              @enderror
-              <div class="form-group">
-                <label for="name" style="font-size: 15px">Total</label>
-                <input type="text" class="form-control @error('total') is-invalid @enderror" name="total" id="total" placeholder="Masukan Total" value="{{ $item->total }}">
-                @error('total')
+                <label for="email" style="font-size: 15px">Email</label>
+                <input type="text" class="form-control @error('email') is-invalid @enderror" name="email" id="email" value="{{ auth()->user()->email }}">
+                @error('email')
                   <div class="text-danger">{{ $message }}</div>
                 @enderror
               </div>
               <div class="form-group">
-                <label for="repair" style="font-size: 15px">New Broken Item <span class="text-warning">(currently: {{ $item->repair }})</span></label>
-                <input type="number" class="form-control @error('repair') is-invalid @enderror" max="{{ $item->total - ($item->lending->total ?? 0) -  $item->repair }}" name="repair" id="repair" value="0">
-                @error('repair')
+                <label for="password" style="font-size: 15px">New Password <span class="text-warning">optional</span></label>
+                <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" id="password">
+                @error('password')
                   <div class="text-danger">{{ $message }}</div>
                 @enderror
               </div>
               <div class="d-flex justify-content-end" style="gap: 10px">
-                <a href="{{ route('item.index') }}" class="btn btn-secondary text-dark">Back</a>
-                <button type="submit" class="btn btn-primary">Update</button>
+                <a href="{{ route('dashboard.accounts.' . auth()->user()->role) }}" class="btn btn-secondary text-dark">Back</a>
+                <button type="submit" class="btn btn-primary">Submit</button>
               </div>
             </form>
           </div>

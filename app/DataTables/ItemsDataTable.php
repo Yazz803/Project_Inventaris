@@ -23,19 +23,40 @@ class ItemsDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
-        return (new EloquentDataTable($query))
+        if(auth()->user()->role == 'admin'){
+            return (new EloquentDataTable($query))
             ->addColumn('action', function ($item) {
                 $btnEdit = '<a href="'.route('item.edit', $item->id).'" class="btn btn-lg btn-primary">Edit</a>';
 
                 return $btnEdit;
             })
             ->setRowId('id')
+            ->editColumn('lending_id', function($item) {
+                return $item->lendings->sum('total') ?? 0;
+            })
             ->editColumn('category_id' , function($item) {
                 return $item->category->name;
             })
             ->editColumn('updated_at', function($item) {
                 return $item->updated_at->translatedFormat('F d, Y');
             });
+        }
+        elseif(auth()->user()->role == 'operator'){
+            return (new EloquentDataTable($query))
+            ->setRowId('id')
+            ->editColumn('category_id' , function($item) {
+                return $item->category->name;
+            })
+            ->editColumn('available', function($item) {
+                return $item->total - ($item->lendings->sum('total') ?? 0) - $item->repair;
+            })
+            ->editColumn('lending_id', function($item) {
+                return $item->lendings->sum('total') ?? 0;
+            })
+            ->editColumn('updated_at', function($item) {
+                return $item->updated_at->translatedFormat('F d, Y');
+            });
+        }
     }
 
     /**
@@ -80,26 +101,48 @@ class ItemsDataTable extends DataTable
      */
     public function getColumns(): array
     {
-        return [
-            Column::make('id')
-                ->width(20)
-                ->addClass('text-center')
-                ->exportable(false),
-            Column::make('category_id')
-                ->title('Category'),
-            Column::make('name'),
-            Column::make('total'),
-            Column::make('repair'),
-            Column::make('lending')
-                ->exportable(false),
-            Column::computed('action')
-                ->exportable(false)
-                ->printable(false)
-                ->addClass('text-center'),
-            Column::make('updated_at')
-                ->title('Last Updated')
-                ->visible(false)
-        ];
+        if(auth()->user()->role == 'admin'){
+            return [
+                Column::make('id')
+                    ->width(20)
+                    ->addClass('text-center')
+                    ->exportable(false),
+                Column::make('category_id')
+                    ->title('Category'),
+                Column::make('name'),
+                Column::make('total'),
+                Column::make('repair'),
+                Column::make('lending_id')
+                    ->title('Lending')
+                    ->exportable(false),
+                Column::computed('action')
+                    ->exportable(false)
+                    ->printable(false)
+                    ->addClass('text-center'),
+                Column::make('updated_at')
+                    ->title('Last Updated')
+                    ->visible(false)
+            ];
+        }
+        elseif(auth()->user()->role == 'operator'){
+            return [
+                Column::make('id')
+                    ->width(20)
+                    ->addClass('text-center')
+                    ->exportable(false)
+                    ->title('#'),
+                Column::make('category_id')
+                    ->title('Category'),
+                Column::make('name'),
+                Column::make('total'),
+                Column::make('available'),
+                Column::make('repair'),
+                Column::make('lending_id')
+                    ->title('Lending Total')
+                    ->exportable(false),
+            ];
+        }
+        
     }
 
     /**

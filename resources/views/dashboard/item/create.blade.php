@@ -56,7 +56,7 @@
               @enderror
               <div class="form-group">
                 <label for="name" style="font-size: 15px">Total</label>
-                <input type="text" class="form-control @error('total') is-invalid @enderror" name="total" id="total" placeholder="Masukan Total">
+                <input type="number" class="form-control @error('total') is-invalid @enderror" name="total" id="total" placeholder="Masukan Total">
                 @error('total')
                   <div class="text-danger">{{ $message }}</div>
                 @enderror

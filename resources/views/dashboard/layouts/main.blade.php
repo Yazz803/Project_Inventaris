@@ -77,6 +77,7 @@
                 <a href="{{ route('dashboard.index') }}"><i class="fas fa-home"></i><span>Dashboard</span></a>
               </li>
               <li class="menu-header mt-3 ml-3 text-light">Items Data</li>
+              @if(auth()->user()->role == 'admin')
               <li class="nav-item dropdown">
                 <a href="{{ route('category.index') }}"><i class="fas fa-bars"></i> <span>Categories</span></a>
               </li>
@@ -91,6 +92,20 @@
                   <li><a class="nav-link" href="{{ route('dashboard.accounts.operator') }}">o Operator</a></li>
                 </ul>
               </li>
+              @elseif(auth()->user()->role == 'operator')
+              <li class="nav-item dropdown">
+                <a href="{{ route('dashboard.operator.item.index') }}"><i class="fas fa-window-restore"></i> <span>Items</span></a>
+              </li>
+              <li class="nav-item dropdown">
+                <a href="{{ route('dashboard.operator.lending.index') }}"><i class="fas fa-spinner"></i> <span>Lending</span></a>
+              </li>
+              <li class="nav-item dropdown">
+                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-user"></i><span>Users</span></a>
+                <ul class="dropdown-menu">
+                  <li><a class="nav-link" href="{{ route('dashboard.accounts.editOperator') }}">o Edit</a></li>
+                </ul>
+              </li>
+              @endif
             </ul>
         </aside>
       </div>

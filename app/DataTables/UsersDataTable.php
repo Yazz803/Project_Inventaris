@@ -75,6 +75,11 @@ class UsersDataTable extends DataTable
                 if($user->role == last(request()->segments())){
                     return $user->email;
                 }
+            })
+            ->editColumn('default_pw', function($user) {
+                if($user->role == last(request()->segments())){
+                    return $user->default_pw;
+                }
             });
     }
 
