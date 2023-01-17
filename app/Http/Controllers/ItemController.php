@@ -91,7 +91,7 @@ class ItemController extends Controller
         ]);
 
         if($request->repair == 0){
-            $validated['available'] = $request->total - $item->lendings->sum('total') - $item->repair;
+            $validated['available'] = $request->total - $item->lendings->sum('total') - $item->repair;;
         }else{
             if($request->repair < 0){
                 if(abs($request->repair) > $item->repair){
@@ -100,7 +100,7 @@ class ItemController extends Controller
                     $validated['available'] = $item->available - $item->lendings->sum('total') - $request->repair;
                 }
             }else{
-                $validated['available'] = $item->available - $item->lendings->sum('total') - $request->repair;
+                $validated['available'] = $request->total - $item->lendings->sum('total') - abs($request->repair);
             }
         }
 
