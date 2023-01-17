@@ -24,9 +24,9 @@
             <h4>Add Item Forms</h4>
             <p class="text-muted">Please <span class="text-danger">fill all</span> input form with right value.</p>
           </div>
-          @if(session('success'))
-          <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {!! session('success') !!}
+          @if(session('error'))
+          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {!! session('error') !!}
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -64,7 +64,7 @@
               </div>
               <div class="form-group">
                 <label for="repair" style="font-size: 15px">New Broken Item <span class="text-warning">(currently: {{ $item->repair }})</span></label>
-                <input type="number" class="form-control @error('repair') is-invalid @enderror" max="{{ $item->total - ($item->lending->total ?? 0) -  $item->repair }}" name="repair" id="repair" value="0">
+                <input type="number" class="form-control @error('repair') is-invalid @enderror" max="{{ $item->total - ($item->lendings->sum('total') ?? 0) -  $item->repair }}" name="repair" id="repair" value="0">
                 @error('repair')
                   <div class="text-danger">{{ $message }}</div>
                 @enderror

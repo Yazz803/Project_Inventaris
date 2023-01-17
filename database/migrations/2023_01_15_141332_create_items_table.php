@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('category_id');
             $table->string('name');
             $table->integer('total');
+            $table->integer('available');
             $table->integer('repair')->default(0);
             $table->timestamps();
         });

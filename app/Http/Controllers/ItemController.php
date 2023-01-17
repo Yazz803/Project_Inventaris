@@ -45,6 +45,7 @@ class ItemController extends Controller
             'category_id' => 'required',
             'total' => 'required'
         ]);
+        $validated['available'] = $request->total;
 
         Item::create($validated);
 
@@ -88,6 +89,16 @@ class ItemController extends Controller
             'category_id' => 'required',
             'total' => 'required',
         ]);
+
+        if($request->repair < 0){
+            if(abs($request->repair) > $item->repair){
+                return redirect()->back()->with('error', 'Total/currentrly Repair Tidak boleh sampai minus!');
+            }else{
+                $validated['available'] = $item->available - $item->lendings->sum('total') - $request->repair;
+            }
+        }else{
+            $validated['available'] = $item->available - $item->lendings->sum('total') - $request->repair;
+        }
 
         $validated['repair'] = $item->repair + $request->repair;
 

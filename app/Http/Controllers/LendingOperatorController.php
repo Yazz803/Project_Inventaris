@@ -28,17 +28,24 @@ class LendingOperatorController extends Controller
         ]);
 
         foreach($request->addmore as $key => $value){
-            // jika total yang dipinjam lebih besar dari total yang ada
+            // jika available yang dipinjam lebih besar dari available yang ada
+            
             $spesificItem = Item::find($value['item_id']);
-            if($value['total'] > $spesificItem->total) {
+            if($value['total'] <= $spesificItem->available){
+                Lending::create($value);
+                Item::find($value['item_id'])->update([
+                    'available' => $spesificItem->available - $value['total']
+                ]);
+            }
+
+            if($value['total'] > $spesificItem->available) {
                 return redirect()->route('dashboard.operator.lending.create')
                 ->with(
                     'error', 
-                    'Total yang dipinjam tidak boleh lebih dari total yang ada! ' . '<span class="font-weight-bold">' . $spesificItem->name . ' => Available : ' . $spesificItem->total . '</span>'
+                    'Total yang dipinjam tidak boleh lebih dari total yang ada! ' . '<span class="font-weight-bold">' . $spesificItem->name . ' => Available : ' . $spesificItem->available . '</span>'
                 );
             }
 
-            Lending::create($value);
         }
 
         return redirect()->route('dashboard.operator.lending.index')->with('success', 'Peminjaman Berhasil Ditambahkan!');
@@ -48,6 +55,10 @@ class LendingOperatorController extends Controller
         $lending->returned = now();
         $lending->updated_at = now();
         $lending->total_return = $lending->total;
+
+        $lending->item->available += $lending->total;
+        $lending->item->save();
+
         $lending->total = 0;
 
         $lending->save();

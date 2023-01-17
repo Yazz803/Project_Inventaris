@@ -24,7 +24,7 @@ use App\Http\Controllers\LendingOperatorController;
 
 Route::match('GET', 'login', function(){return view('landingpage.index');});
 
-Route::group(['prefix' => 'dashboard'], function () {
+Route::group(['prefix' => 'dashboard', 'middleware' => 'auth'], function () {
     Route::get('/', function () {
         return view('dashboard.index');
     })->name('dashboard.index');

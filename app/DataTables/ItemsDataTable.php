@@ -31,7 +31,7 @@ class ItemsDataTable extends DataTable
                 return $btnEdit;
             })
             ->setRowId('id')
-            ->editColumn('lending_id', function($item) {
+            ->editColumn('lending', function($item) {
                 return $item->lendings->sum('total') ?? 0;
             })
             ->editColumn('category_id' , function($item) {
@@ -47,10 +47,13 @@ class ItemsDataTable extends DataTable
             ->editColumn('category_id' , function($item) {
                 return $item->category->name;
             })
-            ->editColumn('available', function($item) {
-                return $item->total - ($item->lendings->sum('total') ?? 0) - $item->repair;
+            ->editColumn('total', function($item) {
+                return $item->total;
             })
-            ->editColumn('lending_id', function($item) {
+            ->editColumn('available', function($item) {
+                return $item->available;
+            })
+            ->editColumn('lending', function($item) {
                 return $item->lendings->sum('total') ?? 0;
             })
             ->editColumn('updated_at', function($item) {
@@ -112,7 +115,7 @@ class ItemsDataTable extends DataTable
                 Column::make('name'),
                 Column::make('total'),
                 Column::make('repair'),
-                Column::make('lending_id')
+                Column::make('lending')
                     ->title('Lending')
                     ->exportable(false),
                 Column::computed('action')
@@ -137,7 +140,7 @@ class ItemsDataTable extends DataTable
                 Column::make('total'),
                 Column::make('available'),
                 Column::make('repair'),
-                Column::make('lending_id')
+                Column::make('lending')
                     ->title('Lending Total')
                     ->exportable(false),
             ];
