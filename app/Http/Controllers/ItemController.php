@@ -90,15 +90,20 @@ class ItemController extends Controller
             'total' => 'required',
         ]);
 
-        if($request->repair < 0){
-            if(abs($request->repair) > $item->repair){
-                return redirect()->back()->with('error', 'Total/currentrly Repair Tidak boleh sampai minus!');
+        if($request->repair == 0){
+            $validated['available'] = $request->total - $item->lendings->sum('total') - $item->repair;
+        }else{
+            if($request->repair < 0){
+                if(abs($request->repair) > $item->repair){
+                    return redirect()->back()->with('error', 'Total/currentrly Repair Tidak boleh sampai minus!');
+                }else{
+                    $validated['available'] = $item->available - $item->lendings->sum('total') - $request->repair;
+                }
             }else{
                 $validated['available'] = $item->available - $item->lendings->sum('total') - $request->repair;
             }
-        }else{
-            $validated['available'] = $item->available - $item->lendings->sum('total') - $request->repair;
         }
+
 
         $validated['repair'] = $item->repair + $request->repair;
 
