@@ -22,7 +22,7 @@ use App\Http\Controllers\LendingOperatorController;
 |
 */
 
-Route::match('GET', 'login', function(){return view('landingpage.index');});
+// Route::match('GET', 'login', function(){return view('landingpage.index');});
 
 Route::group(['prefix' => 'dashboard', 'middleware' => 'auth'], function () {
     Route::get('/', function () {
@@ -54,7 +54,9 @@ Route::group(['prefix' => 'dashboard', 'middleware' => 'auth'], function () {
 });
 // Auth::routes();
 
+// Route::get('/', [LandingPageController::class, 'index'])->name('landingpage.index');
 Route::get('/', [LandingPageController::class, 'index'])->name('landingpage.index');
+Route::get('/login', [LandingPageController::class, 'login'])->name('landingpage.login');
 Route::post('/login', [LoginController::class, 'auth'])->name('login');
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 

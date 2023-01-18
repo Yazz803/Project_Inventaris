@@ -119,7 +119,7 @@
       </div>
       <footer class="main-footer">
         <div class="footer-left">
-          Copyright &copy; 2022 <div class="bullet"><a>PPLG SMK Wikrama Bogor</a></div>
+          Copyright &copy; {{ date('Y') }} <div class="bullet"><a>PPLG SMK Wikrama Bogor | M. Yazid Akbar</a></div>
         </div>
       </footer>
     </div>
