@@ -30,6 +30,7 @@ Route::group(['prefix' => 'dashboard', 'middleware' => 'auth'], function () {
     })->name('dashboard.index');
     Route::resource('category', CategoryController::class);
     Route::resource('item', ItemController::class);
+    Route::get('lending/{item:id}', [ItemController::class, 'infoLendings'])->name('dashboard.lending.index');
 
     Route::middleware('role:admin')->group(function() {
         Route::get('/admin', [UserController::class, 'admin'])->name('dashboard.accounts.admin');

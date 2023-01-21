@@ -32,8 +32,9 @@ class ItemsDataTable extends DataTable
             })
             ->setRowId('id')
             ->editColumn('lending', function($item) {
-                return $item->lendings->sum('total') ?? 0;
-            })
+                $result = '<a style="color: #0d6efd; " href="'.route('dashboard.lending.index', $item->id).'">'. $item->lendings->sum('total') ?? 0 .'</a>';
+                return $result;
+            })->escapeColumns(['lending' => true])
             ->editColumn('category_id' , function($item) {
                 return $item->category->name;
             })
@@ -55,7 +56,7 @@ class ItemsDataTable extends DataTable
             })
             ->editColumn('lending', function($item) {
                 return $item->lendings->sum('total') ?? 0;
-            })
+            })->escapeColumns(['lending' => true])
             ->editColumn('updated_at', function($item) {
                 return $item->updated_at->translatedFormat('F d, Y');
             });
@@ -113,11 +114,14 @@ class ItemsDataTable extends DataTable
                 Column::make('category_id')
                     ->title('Category'),
                 Column::make('name'),
-                Column::make('total'),
-                Column::make('repair'),
-                Column::make('lending')
+                Column::make('total')
+                    ->addClass('text-center'),
+                Column::make('repair')
+                    ->addClass('text-center'),
+                Column::computed('lending')
                     ->title('Lending')
-                    ->exportable(false),
+                    ->exportable(false)
+                    ->addClass('text-center'),
                 Column::computed('action')
                     ->exportable(false)
                     ->printable(false)

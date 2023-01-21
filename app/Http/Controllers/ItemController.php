@@ -21,6 +21,11 @@ class ItemController extends Controller
         return $dataTables->render('dashboard.item.index');
     }
 
+    public function infoLendings(Item $item)
+    {
+        return view('dashboard.lending.index', compact('item'));
+    }
+    
     /**
      * Show the form for creating a new resource.
      *
